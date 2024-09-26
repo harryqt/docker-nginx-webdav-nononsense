@@ -1,20 +1,23 @@
 services:
-    nginxwebdav:
-        container_name: nginxwebdav
-        build:
-            context: .
-        volumes:
-            - ./data:/data
-            - ./config:/config
-            # - ./custom-cont-init.d:/custom-cont-init.d # optional: additional cont-init.d-scripts like multi-user support
-        environment:
-            - PUID=501
-            - PGID=20
-            - TZ=Europe/Berlin
-            - WEBDAV_USERNAME=user
-            - WEBDAV_PASSWORD=password
-            - SERVER_NAMES=localhost
-            - TIMEOUTS_S=1200 # these are seconds
-            - CLIENT_MAX_BODY_SIZE=120M # must end with M(egabytes) or G(igabytes)
-        ports:
-            - 32080:80
+  nginxwebdav:
+    container_name: nginxwebdav
+    build:
+      context: .
+    volumes:
+      - /mnt/extdrive:/data
+      - ./config:/config
+      # - ./custom-cont-init.d:/custom-cont-init.d # optional: additional cont-init.d-scripts like multi-user support
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+      - WEBDAV_USERNAME=harry
+      - WEBDAV_PASSWORD=pass
+      - SERVER_NAMES=localhost
+      - TIMEOUTS_S=1200 # these are seconds
+      - CLIENT_MAX_BODY_SIZE=100G # must end with M(egabytes) or G(igabytes)
+    ports:
+      - 32080:80
+    restart: unless-stopped
+    stop_grace_period: 1m
+    
